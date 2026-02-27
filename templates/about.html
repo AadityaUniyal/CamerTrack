@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About AI Vision Studio — Real-time AI computer vision dashboard">
+    <title>About — AI Vision Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .page-hero {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            position: relative;
+        }
+        .page-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00c8ff, #9d6bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .page-hero p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .about-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0,255,136,0.3);
+        }
+        .about-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .about-card h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+        .about-card p {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .pill {
+            background: rgba(0,200,255,0.12);
+            border: 1px solid rgba(0,200,255,0.25);
+            color: #00c8ff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .pill.green { background: rgba(0,255,136,0.12); border-color: rgba(0,255,136,0.25); color: #00ff88; }
+        .pill.purple { background: rgba(157,107,255,0.12); border-color: rgba(157,107,255,0.25); color: #9d6bff; }
+        .pill.orange { background: rgba(255,136,0,0.12); border-color: rgba(255,136,0,0.25); color: #ff8800; }
+
+        .modules-section {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+        }
+        .modules-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        .modules-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1rem;
+        }
+        .module-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            transition: border-color 0.3s;
+        }
+        .module-item:hover { border-color: rgba(0,255,136,0.3); }
+        .module-emoji { font-size: 1.4rem; }
+        .module-info .name { font-size: 0.88rem; font-weight: 600; color: #fff; }
+        .module-info .desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+        .creator-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+        .creator-card {
+            background: linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,200,255,0.06));
+            border: 1px solid rgba(0,255,136,0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .creator-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #00c8ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #000;
+            flex-shrink: 0;
+        }
+        .creator-info h3 { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+        .creator-info .role { color: rgba(0,255,136,0.8); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.75rem; }
+        .creator-info .bio { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.6; max-width: 500px; }
+        .creator-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .creator-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .creator-link.linkedin {
+            background: rgba(0,119,181,0.2);
+            border: 1px solid rgba(0,119,181,0.4);
+            color: #4fc3f7;
+        }
+        .creator-link.linkedin:hover {
+            background: rgba(0,119,181,0.35);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" stroke="url(#grad1)" stroke-width="2.5" />
+                        <circle cx="20" cy="20" r="8" fill="url(#grad1)" opacity="0.8" />
+                        <circle cx="20" cy="20" r="3" fill="white" />
+                        <defs>
+                            <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#00ff88" />
+                                <stop offset="100%" stop-color="#00c8ff" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>AI Vision Studio</h1>
+                    <span class="logo-subtitle">13 AI Modules • Real-Time Dashboard</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="nav-links">
+                <a href="/dashboard" class="nav-link">🏠 Dashboard</a>
+                <a href="/about" class="nav-link active">ℹ️ About</a>
+                <a href="/problems" class="nav-link">⚠️ Problems</a>
+                <a href="/contact" class="nav-link">✉️ Contact</a>
+            </nav>
+            {% if username %}
+            <div class="user-chip">
+                <div class="user-avatar">{{ display_name[0] }}</div>
+                <span class="user-name">{{ display_name }}</span>
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-hero">
+        <h1>About AI Vision Studio</h1>
+        <p>A real-time computer vision dashboard powered by 13 AI modules. Detect faces, track hands, analyze emotions, estimate poses and much more — all through your live camera feed.</p>
+    </div>
+
+    <div class="about-grid">
+        <div class="about-card">
+            <div class="about-card-icon">🎯</div>
+            <h2>What It Does</h2>
+            <p>AI Vision Studio provides a unified platform to run multiple computer vision algorithms simultaneously on a live camera feed. Switch modules on/off in real-time with zero lag.</p>
+        </div>
+        <div class="about-card">
+            <div class="about-card-icon">🧠</div>
+            <h2>Tech Stack</h2>
+            <p>Built with Python and Flask for backend streaming. Computer vision powered by OpenCV, MediaPipe, and DeepFace.</p>
+            <div class="tech-pills">
+                <span class="pill green">Python</span>
+                <span class="pill">Flask</span>
+                <span class="pill orange">OpenCV</span>
+                <span class="pill purple">MediaPipe</span>
+                <span class="pill green">DeepFace</span>
+                <span class="pill">NumPy</span>
+            </div>
+        </div>
+        <div class="about-card">
+            <div class="about-card-icon">⚡</div>
+            <h2>Performance</h2>
+            <p>Optimized for real-time performance with multi-threaded camera streaming, per-module toggle controls and a responsive MJPEG feed that adapts to your hardware.</p>
+        </div>
+        <div class="about-card">
+            <div class="about-card-icon">🔒</div>
+            <h2>Security</h2>
+            <p>Session-based authentication protects the dashboard. All API endpoints require login. Signup and login are handled securely with server-side sessions.</p>
+        </div>
+    </div>
+
+    <!-- AI Modules List -->
+    <section class="modules-section">
+        <h2>🧩 All 13 AI Modules</h2>
+        <div class="modules-list">
+            <div class="module-item">
+                <span class="module-emoji">👤</span>
+                <div class="module-info">
+                    <div class="name">Face Detection</div>
+                    <div class="desc">OpenCV DNN — fast & accurate</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">✋</span>
+                <div class="module-info">
+                    <div class="name">Hand Tracking</div>
+                    <div class="desc">21-keypoint gesture recognition</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">📦</span>
+                <div class="module-info">
+                    <div class="name">Object Detection</div>
+                    <div class="desc">MobileNet SSD, 20+ classes</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">😊</span>
+                <div class="module-info">
+                    <div class="name">Emotion Detection</div>
+                    <div class="desc">DeepFace emotion analysis</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🌡️</span>
+                <div class="module-info">
+                    <div class="name">Motion Detection</div>
+                    <div class="desc">Heat-map motion overlay</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🎨</span>
+                <div class="module-info">
+                    <div class="name">Color Analysis</div>
+                    <div class="desc">K-Means dominant colors</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🧊</span>
+                <div class="module-info">
+                    <div class="name">Face Mesh</div>
+                    <div class="desc">468-point wireframe overlay</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🦴</span>
+                <div class="module-info">
+                    <div class="name">Pose Estimation</div>
+                    <div class="desc">17-keypoint body skeleton</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">📱</span>
+                <div class="module-info">
+                    <div class="name">QR Scanner</div>
+                    <div class="desc">QR codes & barcodes</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🎭</span>
+                <div class="module-info">
+                    <div class="name">Artistic Filters</div>
+                    <div class="desc">Cartoon, Sketch, Edge, Thermal</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🖼️</span>
+                <div class="module-info">
+                    <div class="name">Background Seg.</div>
+                    <div class="desc">Blur or replace background</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">👶</span>
+                <div class="module-info">
+                    <div class="name">Age & Gender</div>
+                    <div class="desc">DNN demographic analysis</div>
+                </div>
+            </div>
+            <div class="module-item">
+                <span class="module-emoji">🏎️</span>
+                <div class="module-info">
+                    <div class="name">Speed Tracker</div>
+                    <div class="desc">Optical flow speed estimation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creator Section -->
+    <section class="creator-section">
+        <div class="creator-card">
+            <div class="creator-avatar">A</div>
+            <div class="creator-info">
+                <h3>Aaditya Uniyal</h3>
+                <div class="role">🚀 AI / ML Developer & Creator</div>
+                <div class="bio">
+                    Built AI Vision Studio as a showcase of real-time computer vision capabilities, combining 13 AI modules into a unified, beautiful dashboard. Passionate about making AI accessible and interactive.
+                </div>
+                <div class="creator-links">
+                    <a href="https://www.linkedin.com/in/aaditya-uniyal-48ab7b342" target="_blank" rel="noopener noreferrer" class="creator-link linkedin">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        LinkedIn — Connect with me
+                    </a>
+                    <a href="/contact" class="creator-link" style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#00ff88;">
+                        ✉️ Get in Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>AI Vision Studio — 13 AI Modules | OpenCV • MediaPipe • DeepFace | Made by <strong>Aaditya Uniyal</strong></p>
+    </footer>
+</body>
+
+</html>

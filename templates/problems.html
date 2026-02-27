@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Known problems, FAQ and troubleshooting for AI Vision Studio">
+    <title>Problems & FAQ — AI Vision Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .page-hero {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8800, #ff4444, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .problems-wrapper {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .accordion-item:hover {
+            border-color: rgba(255, 136, 0, 0.3);
+        }
+
+        .accordion-item.open {
+            border-color: rgba(255, 136, 0, 0.4);
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.1rem 1.5rem;
+            cursor: pointer;
+            gap: 1rem;
+        }
+
+        .accordion-question {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .severity {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .severity.high {
+            background: rgba(255, 68, 68, 0.18);
+            border: 1px solid rgba(255, 68, 68, 0.35);
+            color: #ff6b6b;
+        }
+
+        .severity.medium {
+            background: rgba(255, 136, 0, 0.15);
+            border: 1px solid rgba(255, 136, 0, 0.3);
+            color: #ff8800;
+        }
+
+        .severity.low {
+            background: rgba(0, 200, 255, 0.12);
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            color: #00c8ff;
+        }
+
+        .severity.info {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .accordion-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .accordion-item.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 0 1.5rem 1.25rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.75;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .accordion-item.open .accordion-body {
+            display: block;
+        }
+
+        .accord-code {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #00ff88;
+            margin: 0.75rem 0;
+            overflow-x: auto;
+        }
+
+        .tip-box {
+            background: rgba(0, 200, 255, 0.07);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.84rem;
+            color: #7dd3fc;
+        }
+
+        .tip-box strong {
+            color: #00c8ff;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .status-dot-green {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00ff88;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px #00ff8888;
+        }
+
+        .status-dot-yellow {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffcc00;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px #ffcc0088;
+        }
+
+        .status-dot-red {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4444;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px #ff444488;
+        }
+
+        .status-text-info {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .cta-section {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(157, 107, 255, 0.1), rgba(0, 200, 255, 0.08));
+            border: 1px solid rgba(157, 107, 255, 0.25);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .cta-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-card p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            background: linear-gradient(135deg, #9d6bff, #00c8ff);
+            color: #000;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+
+        .cta-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" stroke="url(#grad1)" stroke-width="2.5" />
+                        <circle cx="20" cy="20" r="8" fill="url(#grad1)" opacity="0.8" />
+                        <circle cx="20" cy="20" r="3" fill="white" />
+                        <defs>
+                            <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#00ff88" />
+                                <stop offset="100%" stop-color="#00c8ff" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>AI Vision Studio</h1>
+                    <span class="logo-subtitle">13 AI Modules • Real-Time Dashboard</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="nav-links">
+                <a href="/dashboard" class="nav-link">🏠 Dashboard</a>
+                <a href="/about" class="nav-link">ℹ️ About</a>
+                <a href="/problems" class="nav-link active">⚠️ Problems</a>
+                <a href="/contact" class="nav-link">✉️ Contact</a>
+            </nav>
+            {% if username %}
+            <div class="user-chip">
+                <div class="user-avatar">{{ display_name[0] }}</div>
+                <span class="user-name">{{ display_name }}</span>
+                <a href="/logout" class="logout-btn" title="Logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <h1>⚠️ Problems & FAQ</h1>
+        <p>Having trouble? Find common issues, solutions, and answers to frequently asked questions below.</p>
+    </div>
+
+    <div class="problems-wrapper">
+
+        <!-- System Status -->
+        <div class="section-label">🟢 Module Status Overview</div>
+        <div class="status-grid">
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">Live Camera Feed</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">Face Detection</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">Hand Tracking</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-yellow"></div>
+                <div class="status-text-info">DeepFace (Slow start)</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">Pose Estimation</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">QR Scanner</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-yellow"></div>
+                <div class="status-text-info">Age/Gender (GPU req.)</div>
+            </div>
+            <div class="status-item">
+                <div class="status-dot-green"></div>
+                <div class="status-text-info">Artistic Filters</div>
+            </div>
+        </div>
+
+        <!-- Camera Issues -->
+        <div class="section-label">📷 Camera Issues</div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity high">● High</span>
+                        Camera feed not showing — black screen
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>This usually means the camera index is wrong or camera access is blocked.</p>
+                    <p><strong>Steps to fix:</strong></p>
+                    <ol>
+                        <li>Make sure no other application (Zoom, Teams, OBS) is using the camera.</li>
+                        <li>Try switching camera index using the <strong>Cam 0 / Cam 1 / Cam 2</strong> buttons in the
+                            dashboard.</li>
+                        <li>Check your OS camera permissions for Python/Browser.</li>
+                        <li>Restart the Flask server and refresh the page.</li>
+                    </ol>
+                    <div class="accord-code">python app.py # restart server</div>
+                    <div class="tip-box"><strong>💡 Tip:</strong> On Windows, go to Settings → Privacy → Camera and
+                        allow access.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity medium">● Medium</span>
+                        Low FPS / laggy video feed
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>Running many AI modules simultaneously is CPU-intensive. High resolution also adds overhead.</p>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Disable modules you are not actively using — each one consumes CPU cycles.</li>
+                        <li>Emotion detection and Age/Gender are the heaviest modules; disable them first.</li>
+                        <li>Lower the camera resolution in <code>config.py</code> if available.</li>
+                        <li>Close background applications consuming CPU.</li>
+                    </ul>
+                    <div class="tip-box"><strong>💡 Tip:</strong> Running 3–4 modules simultaneously is the sweet spot
+                        for smooth 25+ FPS.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Module Issues -->
+        <div class="section-label">🧠 AI Module Issues</div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity medium">● Medium</span>
+                        Emotion detection is slow or freezes
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>DeepFace loads a large neural network model on first activation. This is expected behavior.</p>
+                    <ul>
+                        <li>First activation takes 5–15 seconds to load the model into memory.</li>
+                        <li>Subsequent frames will run faster after the initial warmup.</li>
+                        <li>Ensure <code>deepface</code> and <code>tensorflow</code> packages are installed.</li>
+                    </ul>
+                    <div class="accord-code">pip install deepface tensorflow</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity medium">● Medium</span>
+                        Object detection not detecting anything
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>MobileNet SSD requires the model weight files to be present in the <code>models/</code>
+                        directory.</p>
+                    <ul>
+                        <li>Check that <code>models/</code> contains the required <code>.prototxt</code> and
+                            <code>.caffemodel</code> files.</li>
+                        <li>Make sure the object is within the 20 COCO classes (person, car, bottle, etc.).</li>
+                        <li>Increase room lighting — detection accuracy drops in low light.</li>
+                    </ul>
+                    <div class="tip-box"><strong>💡 Tip:</strong> The confidence threshold is set to 0.5 by default.
+                        Objects with lower certainty are not shown.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity low">● Low</span>
+                        QR scanner not reading codes
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>QR scanning accuracy depends on lighting and code size in frame.</p>
+                    <ul>
+                        <li>Hold the QR code at least 15–20 cm from the camera.</li>
+                        <li>Ensure even, bright lighting — avoid glare on glossy QR codes.</li>
+                        <li>Install <code>pyzbar</code>: <code>pip install pyzbar</code></li>
+                        <li>On Windows, you may also need to install the <strong>zbar</strong> DLL.</li>
+                    </ul>
+                    <div class="accord-code">pip install pyzbar opencv-python</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Installation Issues -->
+        <div class="section-label">📦 Installation & Setup</div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity high">● High</span>
+                        ModuleNotFoundError when starting the server
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>A required Python package is not installed.</p>
+                    <div class="accord-code">pip install -r requirements.txt</div>
+                    <p>If the error persists, install the missing package directly:</p>
+                    <div class="accord-code">pip install flask opencv-python mediapipe deepface numpy</div>
+                    <div class="tip-box"><strong>💡 Tip:</strong> Use a virtual environment to avoid package conflicts:
+                        <code>python -m venv venv</code></div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity low">● Low</span>
+                        Port 5000 already in use
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>Another process is occupying port 5000. Change the port in <code>config.py</code>:</p>
+                    <div class="accord-code">PORT = 5001 # change to any free port</div>
+                    <p>Or kill the process using that port:</p>
+                    <div class="accord-code">netstat -ano | findstr :5000
+                        taskkill /PID [PID_NUMBER] /F</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- General FAQ -->
+        <div class="section-label">❓ General FAQ</div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity info">● Info</span>
+                        Can I use this without a GPU?
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>Yes! Most modules run fine on CPU. Only Age/Gender and Emotion Detection benefit significantly
+                        from a GPU. All other modules (Face Detection, Hand Tracking, Pose Estimation, QR Scanner, etc.)
+                        run smoothly on CPU-only machines.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity info">● Info</span>
+                        How do I add a new user account?
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>Use the <strong>Sign Up</strong> tab on the login page to create a new account. Accounts are
+                        stored in memory during the session — they reset when the server restarts. To persist users, add
+                        them to the <code>USERS</code> dict in <code>config.py</code>.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-question">
+                        <span class="severity info">● Info</span>
+                        Where are screenshots and recordings saved?
+                    </div>
+                    <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="accordion-body">
+                    <p>Screenshots are sent directly to your browser as a download. Recordings are saved to the project
+                        directory on the server. Check the terminal output for the exact file path after stopping a
+                        recording.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h3>Still having issues?</h3>
+            <p>If you can't find a solution above, reach out directly and I'll help you troubleshoot.</p>
+            <a href="/contact" class="cta-btn">✉️ Contact Me</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>AI Vision Studio — 13 AI Modules | OpenCV • MediaPipe • DeepFace | Made by <strong>Aaditya Uniyal</strong>
+        </p>
+    </footer>
+
+    <script>
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isOpen = item.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.accordion-item.open').forEach(el => el.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+    </script>
+</body>
+
+</html>
