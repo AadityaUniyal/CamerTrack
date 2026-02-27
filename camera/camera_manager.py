@@ -1,6 +1,5 @@
 """
 AI Vision Studio — Camera Manager
-Handles webcam capture, 13 AI modules, filters, recording, analytics.
 """
 
 import cv2
@@ -15,7 +14,6 @@ from config import (CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT, DEFAULT_MODULES,
 
 
 class CameraManager:
-    """Manages webcam capture, frame processing pipeline, recording, and analytics."""
 
     def __init__(self):
         self.cap = None
@@ -26,30 +24,24 @@ class CameraManager:
         self._prev_time = time.time()
         self._frame_count = 0
 
-        # AI module instances (lazy loaded)
         self.modules = {}
         self.module_states = dict(DEFAULT_MODULES)
         self.detection_counts = {k: 0 for k in DEFAULT_MODULES}
 
-        # Filters
         self.filters = dict(DEFAULT_FILTERS)
 
-        # Recording
         self.is_recording = False
         self._video_writer = None
         self._recording_start = None
         self._recording_filename = None
 
-        # Analytics
         self._session_start = None
         self._total_detections = {k: 0 for k in DEFAULT_MODULES}
         self._detection_history = []
 
-        # Camera index for multi-cam
         self._camera_index = CAMERA_INDEX
 
     def _init_modules(self):
-        """Initialize AI modules lazily."""
         from ai_modules.face_detector import FaceDetector
         from ai_modules.hand_tracker import HandTracker
         from ai_modules.object_detector import ObjectDetector
@@ -81,7 +73,6 @@ class CameraManager:
         }
 
     def start(self):
-        """Start camera capture."""
         if self.is_running:
             return True
 
@@ -105,7 +96,6 @@ class CameraManager:
         return True
 
     def stop(self):
-        """Stop camera capture and release resources."""
         self.is_running = False
         self.stop_recording()
         if self.cap:
@@ -116,7 +106,6 @@ class CameraManager:
         print("[CameraManager] Camera stopped")
 
     def switch_camera(self, index):
-        """Switch to a different camera."""
         self._camera_index = index
         if self.cap:
             self.cap.release()
@@ -141,14 +130,11 @@ class CameraManager:
         return self.filters
 
     def cycle_artistic_filter(self):
-        """Cycle artistic filter mode."""
         if "artistic_filters" in self.modules:
-            mode = self.modules["artistic_filters"].cycle_mode()
-            return mode
+            return self.modules["artistic_filters"].cycle_mode()
         return None
 
     def set_artistic_filter(self, mode):
-        """Set specific artistic filter mode."""
         if "artistic_filters" in self.modules:
             return self.modules["artistic_filters"].set_mode(mode)
         return False
@@ -159,7 +145,6 @@ class CameraManager:
         return "off"
 
     def set_bg_mode(self, mode):
-        """Set background segmentation mode."""
         if "background_segmentation" in self.modules:
             return self.modules["background_segmentation"].set_mode(mode)
         return False
@@ -195,7 +180,6 @@ class CameraManager:
             "chart_data": chart_data,
         }
 
-    # --- Recording ---
     def start_recording(self):
         if self.is_recording:
             return None
@@ -227,7 +211,6 @@ class CameraManager:
             return int(time.time() - self._recording_start)
         return 0
 
-    # --- Frame Processing ---
     def _apply_filters(self, frame):
         brightness = self.filters.get("brightness", 0)
         contrast = self.filters.get("contrast", 1.0)

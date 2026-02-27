@@ -1,6 +1,5 @@
 /**
  * AI Vision Studio — Frontend JS
- * 13 AI modules, recording, filters, artistic modes, camera switching, analytics.
  */
 
 const API = {
@@ -14,7 +13,6 @@ const API = {
 
 let modules = [], allModulesActive = false, isRecording = false, chartData = [];
 
-// Toast
 function showToast(msg, type = 'success') {
     const icon = type === 'success' ? '✅' : '❌';
     const c = document.getElementById('toast-container');
@@ -25,7 +23,6 @@ function showToast(msg, type = 'success') {
     setTimeout(() => { if (t.parentNode) t.remove(); }, 3000);
 }
 
-// Modules
 async function loadModules() {
     try {
         const r = await fetch(API.MODULES);
@@ -77,7 +74,6 @@ function updateModuleCount() {
     if (el) el.textContent = `${active}/${modules.length}`;
 }
 
-// Status Polling
 async function pollStatus() {
     try {
         const r = await fetch(API.STATUS);
@@ -118,7 +114,6 @@ function updateUI(d) {
     if (d.recording !== isRecording) { isRecording = d.recording; updateRecordingUI(); }
     if (isRecording && d.recording_duration !== undefined) updateRecTimer(d.recording_duration);
 
-    // Update artistic mode buttons
     if (d.artistic_mode) {
         document.querySelectorAll('.art-mode-btn').forEach(b => {
             b.classList.toggle('active', b.dataset.mode === d.artistic_mode);
@@ -148,7 +143,6 @@ function updateCameraStatus(active) {
     else { dot.className = 'status-dot error'; txt.textContent = 'No Camera'; }
 }
 
-// Recording
 async function toggleRecording() {
     try {
         if (!isRecording) {
@@ -176,7 +170,6 @@ function updateRecTimer(sec) {
     if (t) t.textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
 }
 
-// Screenshot
 async function takeScreenshot() {
     try {
         const r = await fetch(API.SCREENSHOT, { method: 'POST' });
@@ -191,7 +184,6 @@ async function takeScreenshot() {
     } catch (e) { showToast('Screenshot failed', 'error'); }
 }
 
-// Filters
 function initFilters() {
     const bs = document.getElementById('brightness-slider'), cs = document.getElementById('contrast-slider');
     const bv = document.getElementById('brightness-value'), cv = document.getElementById('contrast-value');
@@ -203,7 +195,6 @@ async function sendFilter(name, value) {
     try { await fetch(API.FILTERS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ [name]: value }) }); } catch (e) { }
 }
 
-// Artistic Filters
 function initArtistic() {
     document.querySelectorAll('.art-mode-btn').forEach(btn => {
         btn.addEventListener('click', async function () {
@@ -218,7 +209,6 @@ function initArtistic() {
     });
 }
 
-// Camera Switching
 function initCameraSelector() {
     document.querySelectorAll('.cam-btn').forEach(btn => {
         btn.addEventListener('click', async function () {
@@ -236,7 +226,6 @@ function initCameraSelector() {
     });
 }
 
-// Analytics
 async function pollAnalytics() {
     try {
         const r = await fetch(API.ANALYTICS);
@@ -249,7 +238,6 @@ async function pollAnalytics() {
     } catch (e) { }
 }
 
-// Chart
 function drawChart() {
     const cnv = document.getElementById('detection-chart');
     if (!cnv || chartData.length < 2) return;
@@ -272,7 +260,6 @@ function drawChart() {
     }
 }
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
     loadModules();
     initFilters();
@@ -289,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cnv) { const r = cnv.getBoundingClientRect(); cnv.width = r.width; cnv.height = r.height; }
 });
 
-// Keyboard
 document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT') return;
     if (e.key >= '1' && e.key <= '9' && !e.ctrlKey) { const i = +e.key - 1; if (modules[i]) toggleModule(modules[i].id); }
